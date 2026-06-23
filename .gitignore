@@ -1,0 +1,9 @@
+# Python
+.venv/
+__pycache__/
+
+# AI Assistant
+.agent/
+
+# Tencent
+cli/tencent.py
