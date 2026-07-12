@@ -10,12 +10,12 @@ def extract_json(raw: str) -> str:
     json_str: str = None
     
     # 1. First we try to get the json as markdown pattern
-    json_str = _extract_markdown_json()
+    json_str = _extract_markdown_json(raw)
     if json_str:
         return json_str
     
     # 2. Fallback to json_object pattern
-    json_str = _extract_json_object()
+    json_str = _extract_json_object(raw)
     if json_str:
         return json_str
     
