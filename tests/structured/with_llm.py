@@ -1,18 +1,7 @@
-"""
-StructuredHelper × LLM 简单示例
-
-运行前：
-    确保项目根目录 .env 中配置了 DEEPSEEK_API_KEY，
-    或将下面的 base_url / model 换成任意 OpenAI-兼容端点。
-
-运行：
-    python -m tests.structured.with_llm
-"""
 import os
 import sys
 
 from dotenv import load_dotenv
-from openai import OpenAI
 from pydantic import BaseModel, Field
 
 # 让脚本从仓库根目录直接运行也能 import 到 structured 包
@@ -20,29 +9,25 @@ sys.path.insert(
     0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 )
 
-from structured import StructuredHelper  # noqa: E402
+from structured import StructuredHelper
+from client import DeepseekClient
+from client.base import ConnectionConfig
+from session.message import UserMessage
+from session.block import TextBlock
 
 
-# --------------------------------------------------------------------------- #
-# LLM 客户端
-# --------------------------------------------------------------------------- #
 load_dotenv()
 
-MODEL = "deepseek-chat"
-llm = OpenAI(
+llm = DeepseekClient(ConnectionConfig(
     api_key=os.getenv("DEEPSEEK_API_KEY"),
     base_url="https://api.deepseek.com",
-)
+))
 
 
 def ask(prompt: str) -> str:
     """把 prompt 丢给 LLM，拿回文本。"""
-    resp = llm.chat.completions.create(
-        model=MODEL,
-        messages=[{"role": "user", "content": prompt}],
-        temperature=0,
-    )
-    return resp.choices[0].message.content
+    reply = llm.chat([UserMessage([TextBlock(prompt)])])
+    return reply.content[0].text
 
 
 # --------------------------------------------------------------------------- #
