@@ -7,8 +7,14 @@ __pycache__/
 # AI Assistant
 .agent/
 
+
 # Tencent
 cli/tencent.py
 
+
 # Env
 .env
+
+
+# IDE
+.vscode/

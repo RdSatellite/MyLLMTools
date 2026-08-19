@@ -7,12 +7,12 @@ sys.path.insert(
     0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 )
 
-from client import DeepseekClient
-from client.base import ConnectionConfig
+from llm import DeepseekLLM
+from llm.base import ConnectionConfig
 
 load_dotenv()
 
-client = DeepseekClient(ConnectionConfig(
+client = DeepseekLLM(ConnectionConfig(
     api_key=os.getenv("DEEPSEEK_API_KEY"),
     base_url="https://api.deepseek.com",
 ))
@@ -26,7 +26,10 @@ def get_weather(location: str, unit: str = "celsius") -> str:
 def main():
     prompt = "北京今天天气怎么样？"
 
-    msg = client.chat_with_tools(prompt, [get_weather])
+    msg = client.chat_with_tools(
+        [{"role": "user", "content": prompt}],
+        [get_weather],
+    )
 
     if not msg.tool_calls:
         print("[no tool call] content =", msg.content)

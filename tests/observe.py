@@ -14,12 +14,12 @@ sys.path.insert(
     0, os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 )
 
-from client import DeepseekClient
-from client.base import ConnectionConfig
+from llm import DeepseekLLM
+from llm.base import ConnectionConfig
 
 load_dotenv()
 
-client = DeepseekClient(ConnectionConfig(
+client = DeepseekLLM(ConnectionConfig(
     api_key=os.getenv("DEEPSEEK_API_KEY"),
     base_url="https://api.deepseek.com",
 ))
@@ -45,7 +45,7 @@ def show(label: str, result):
 
 # --- Case 1: 基本 chat ---
 def case_chat():
-    r = client.chat("用一句话介绍你自己")
+    r = client.chat([{"role": "user", "content": "用一句话介绍你自己"}])
     show("chat", r)
 
 
@@ -56,13 +56,19 @@ class Person(BaseModel):
 
 
 def case_structured():
-    r = client.chat_with_structured("小明今年 12 岁，请抽取人物信息", Person)
+    r = client.chat_with_structured(
+        [{"role": "user", "content": "小明今年 12 岁，请抽取人物信息"}],
+        Person,
+    )
     show("chat_with_structured", r)
 
 
 # --- Case 3: 单工具调用 ---
 def case_single_tool():
-    r = client.chat_with_tools("北京今天天气怎么样？", [get_weather])
+    r = client.chat_with_tools(
+        [{"role": "user", "content": "北京今天天气怎么样？"}],
+        [get_weather],
+    )
     show("chat_with_tools(单工具)", r)
     if r.tool_calls:
         tc = r.tool_calls[0]
@@ -77,7 +83,10 @@ def case_single_tool():
 
 # --- Case 4: 多工具调用 ---
 def case_multi_tool():
-    r = client.chat_with_tools("北京现在的天气和时间分别是？", [get_weather, get_time])
+    r = client.chat_with_tools(
+        [{"role": "user", "content": "北京现在的天气和时间分别是？"}],
+        [get_weather, get_time],
+    )
     show("chat_with_tools(多工具)", r)
     for tc in (r.tool_calls or []):
         print(f"  - {tc.function.name}({tc.function.arguments})")
@@ -85,7 +94,10 @@ def case_multi_tool():
 
 # --- Case 5: 完整 tool 循环的缺口（观察当前是否支持多轮） ---
 def case_tool_loop_gap():
-    r = client.chat_with_tools("北京天气怎么样？", [get_weather])
+    r = client.chat_with_tools(
+        [{"role": "user", "content": "北京天气怎么样？"}],
+        [get_weather],
+    )
     if not r.tool_calls:
         print("\n[no tool call]")
         return

@@ -10,15 +10,13 @@ sys.path.insert(
 )
 
 from structured import StructuredHelper
-from client import DeepseekClient
-from client.base import ConnectionConfig
-from session.message import UserMessage
-from session.block import TextBlock
+from llm import DeepseekLLM
+from llm.base import ConnectionConfig
 
 
 load_dotenv()
 
-llm = DeepseekClient(ConnectionConfig(
+llm = DeepseekLLM(ConnectionConfig(
     api_key=os.getenv("DEEPSEEK_API_KEY"),
     base_url="https://api.deepseek.com",
 ))
@@ -26,8 +24,7 @@ llm = DeepseekClient(ConnectionConfig(
 
 def ask(prompt: str) -> str:
     """把 prompt 丢给 LLM，拿回文本。"""
-    reply = llm.chat([UserMessage([TextBlock(prompt)])])
-    return reply.content[0].text
+    return llm.chat([{"role": "user", "content": prompt}])
 
 
 # --------------------------------------------------------------------------- #

@@ -1,10 +1,3 @@
-from .block import (
-    ContentBlock,
-    ReasoningBlock,
-    TextBlock,
-    ToolCallBlock,
-    ToolResultBlock,
-)
 from .message import (
     AssistantMessage,
     Message,
@@ -12,16 +5,15 @@ from .message import (
     ToolMessage,
     UserMessage,
 )
+from .history import (
+    History
+)
 
 __all__ = [
-    "ContentBlock",
-    "ReasoningBlock",
-    "TextBlock",
-    "ToolCallBlock",
-    "ToolResultBlock",
     "AssistantMessage",
     "Message",
     "SystemMessage",
     "ToolMessage",
     "UserMessage",
+    "History"
 ]
