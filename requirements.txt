@@ -1,2 +1,32 @@
-pydantic
-langchain_core
+# Embedding
+# core/embed/dashscope.py posts to the endpoint itself, not via a client library.
+requests
+
+# .env
+python-dotenv
+
+# FastApi App
+fastapi
+uvicorn
+
+# LLM
+openai
+
+# Agent applications
+numpy
+langchain
+langchain_openai
+
+# VectorDB
+pymilvus
+pymilvus[model]
+milvus_lite
+lancedb
+
+# Others
+pytest
+tqdm
+pyarrow
+
+# Tokenizer
+tiktoken
