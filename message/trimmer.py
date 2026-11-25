@@ -16,7 +16,7 @@ DEFAULT_CAP_TURNS = 20
 DEFAULT_CAP_TOKENS = 1_000_000  # 1M 上下文
 
 
-# MessageTrimmer 是 List[Message] 的裁剪组件，用于维持上下文窗口
+# MessageTrimmer 是 list[BaseMessage] 的裁剪组件，用于维持上下文窗口
 class MessageTrimmer:
 
     def __init__(

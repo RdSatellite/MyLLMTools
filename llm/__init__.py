@@ -1,4 +1,4 @@
-# package llm send or recv Req&Rsp from LLM
+# package llm 处理与 LLM 的通信
 
-from .chat import chat_llm, get_client
+from .chat import chat_llm
 from .structured import StructuredHelper
