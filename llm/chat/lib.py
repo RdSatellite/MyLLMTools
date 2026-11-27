@@ -2,7 +2,6 @@
 
 from typing import Optional
 
-from dotenv import load_dotenv
 from openai import OpenAI
 
 from .settings import ChatSettings
