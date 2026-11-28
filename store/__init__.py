@@ -6,6 +6,7 @@ from .text import HasText
 from .hybrid import HybridData, HybridStore
 from .kv import KvStore
 
+
 __all__ = [
     "BaseData",
     "BaseStore",

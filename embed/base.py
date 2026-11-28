@@ -7,8 +7,8 @@ from abc import ABC, abstractmethod
 type Vector = list[float]
 
 
-# BaseEmbeddingFunction 作为 Embedding Function 的基类
 class BaseEmbeddingFunction(ABC):
+    """BaseEmbeddingFunction 作为 Embedding Function 的基类"""
 
     def __init__(self, dim: int):
         if dim <= 0:

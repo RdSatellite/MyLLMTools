@@ -7,10 +7,10 @@ from langchain_core.output_parsers import PydanticOutputParser
 
 from .json import extract_json
 
-T = TypeVar("T", bound=BaseModel)
 
+class Helper[T]:
+    """Helper[T] 确定需要处理的类型 T，并提供 JSON schema 的构造方法和解析方法入口"""
 
-class Helper:
     @staticmethod
     def get_json_schema(schema: type[T]) -> str:
         """构造 JSON schema
