@@ -4,7 +4,21 @@ from typing import Any, Protocol, runtime_checkable
 
 
 @runtime_checkable
+class BaseReq(Protocol):
+    """BaseRequest 是 LLM Call 的基础请求"""
+
+    # 我们认为一个 Request 必须至少持有 prompt，用于唤醒模型进行推理
+    
+    def set_prompt(self):
+        ...
+
+    def get_prompt(self):
+        ...
+
+
+@runtime_checkable
 class BaseLLM(Protocol):
+    """BaseLLM 是 基础 LLM Client 定义"""
 
     def chat(self, prompt: str, **kwargs: Any) -> str:
         """
